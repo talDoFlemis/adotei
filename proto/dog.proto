@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+package dog;
+
+enum Sex {
+	MALE = 0;
+	FEMALE = 1;
+}
+
+message CreateDogRequest {
+	string name = 1;
+	uint32 age = 2;
+	string race = 3;
+	Sex sex = 4;
+}
+
+message Dog {
+	uint32 id = 1;
+	string name = 2;
+	uint32 age = 3;
+	string race = 4;
+	Sex sex = 5;
+}
+
+message Dogs {
+	repeated Dog dogs = 1;
+}
+
+message DogCreateResponse {
+	string message = 1;
+}
+
+message FindDogRequest {
+	optional string name = 1;
+	optional uint32 age = 2;
+	optional string race = 3;
+	optional Sex sex = 4;
+}
+
+message DeleteDogRequest {
+	uint32 id = 1;
+}
+
+service DogService {
+	rpc Add(CreateDogRequest) returns (Dog);
+	rpc Find(FindDogRequest) returns (Dog);
+	rpc FindAll(FindDogRequest) returns (Dogs);
+	rpc Delete(DeleteDogRequest) returns (google.protobuf.Empty);
+}
